@@ -869,10 +869,9 @@ struct SettingsView: View {
     .frame(height: 36)
     .background(RoundedRectangle(cornerRadius: 9, style: .continuous).fill(selected ? theme.selection : .clear))
     .contentShape(Rectangle())
-    // Selects on mouse-down, as a sidebar does, rather than a button's mouse-up.
-    .onLongPressGesture(minimumDuration: 0, perform: {}, onPressingChanged: { down in
-      if down { select(pane) }
-    })
+    // Selects on mouse-down, as a sidebar does, rather than a button's mouse-up. With no minimum
+    // duration, perform runs on mouse-down; macOS 15 never calls onPressingChanged here.
+    .onLongPressGesture(minimumDuration: 0) { select(pane) }
     .accessibilityElement(children: .combine)
     .accessibilityAddTraits(selected ? [.isButton, .isSelected] : .isButton)
     .accessibilityAction { select(pane) }
